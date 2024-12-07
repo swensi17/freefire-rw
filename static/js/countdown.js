@@ -1,6 +1,12 @@
 // Дата начала турнира (1 февраля 2025 года)
 const TOURNAMENT_START = new Date('2025-02-01T00:00:00+03:00').getTime();
 
+// Склонение числительных
+function declOfNum(number, titles) {
+    const cases = [2, 0, 1, 1, 1, 2];
+    return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
+}
+
 // Функция для добавления ведущего нуля
 function padZero(num) {
     return num < 10 ? `0${num}` : num;
@@ -68,11 +74,24 @@ function updateCountdown() {
         seconds: document.getElementById('seconds')
     };
 
-    // Проверяем существование элементов перед обновлением
+    const labels = {
+        days: document.querySelector('.countdown-section:nth-child(1) .number-label'),
+        hours: document.querySelector('.countdown-section:nth-child(3) .number-label'),
+        minutes: document.querySelector('.countdown-section:nth-child(5) .number-label'),
+        seconds: document.querySelector('.countdown-section:nth-child(7) .number-label')
+    };
+
+    // Обновляем числа
     if (elements.days) updateStaticNumber(elements.days, days);
     if (elements.hours) updateStaticNumber(elements.hours, hours);
     if (elements.minutes) updateStaticNumber(elements.minutes, minutes);
     if (elements.seconds) updateSeconds(elements.seconds, seconds);
+
+    // Обновляем подписи с правильными склонениями
+    if (labels.days) labels.days.textContent = declOfNum(days, ['день', 'дня', 'дней']);
+    if (labels.hours) labels.hours.textContent = declOfNum(hours, ['час', 'часа', 'часов']);
+    if (labels.minutes) labels.minutes.textContent = declOfNum(minutes, ['минута', 'минуты', 'минут']);
+    if (labels.seconds) labels.seconds.textContent = declOfNum(seconds, ['секунда', 'секунды', 'секунд']);
 }
 
 // Инициализация таймера
