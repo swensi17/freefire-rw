@@ -1,5 +1,5 @@
-// Дата начала турнира
-const TOURNAMENT_START = new Date('2025-02-01T00:00:00').getTime();
+// Дата начала турнира (1 февраля 2025 года)
+const TOURNAMENT_START = new Date('2025-02-01T00:00:00+03:00').getTime();
 
 // Функция для добавления ведущего нуля
 function padZero(num) {
@@ -12,6 +12,10 @@ function updateStaticNumber(element, value) {
         const formattedValue = padZero(value);
         if (element.textContent !== formattedValue) {
             element.textContent = formattedValue;
+            element.classList.add('number-updated');
+            setTimeout(() => {
+                element.classList.remove('number-updated');
+            }, 300);
         }
     }
 }
@@ -64,6 +68,7 @@ function updateCountdown() {
         seconds: document.getElementById('seconds')
     };
 
+    // Проверяем существование элементов перед обновлением
     if (elements.days) updateStaticNumber(elements.days, days);
     if (elements.hours) updateStaticNumber(elements.hours, hours);
     if (elements.minutes) updateStaticNumber(elements.minutes, minutes);
@@ -72,16 +77,26 @@ function updateCountdown() {
 
 // Инициализация таймера
 function initCountdown() {
+    // Проверяем наличие элементов таймера
+    const timerElements = document.querySelectorAll('.countdown-timer .number-block');
+    if (timerElements.length === 0) {
+        console.warn('Timer elements not found');
+        return;
+    }
+
     // Первое обновление
     updateCountdown();
     
     // Обновляем каждую секунду
-    setInterval(updateCountdown, 1000);
+    const interval = setInterval(updateCountdown, 1000);
     
     // Синхронизируем анимацию разделителей
     document.querySelectorAll('.countdown-separator').forEach((separator, index) => {
         separator.style.animationDelay = `${index * 0.1}s`;
     });
+
+    // Сохраняем interval ID для возможной очистки
+    window.countdownInterval = interval;
 }
 
 // Запускаем таймер после загрузки DOM
