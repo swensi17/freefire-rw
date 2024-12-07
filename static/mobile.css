@@ -1,0 +1,234 @@
+/* Мобильные стили */
+
+/* Навигация */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 15px;
+        background: rgba(0, 0, 0, 0.95);
+    }
+
+    .navbar-brand img {
+        max-height: 40px;
+    }
+
+    .navbar-toggler {
+        border: none;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .navbar-collapse {
+        background: rgba(0, 0, 0, 0.95);
+        padding: 1rem;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    .nav-item {
+        margin: 5px 0;
+    }
+
+    .nav-link {
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+
+    .nav-link:hover {
+        background: rgba(255, 77, 0, 0.1);
+    }
+
+    /* Основные секции */
+    .hero-section {
+        padding: 60px 0;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+    }
+
+    /* Статистика */
+    .stat-widget {
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .stat-widget h3 {
+        font-size: 2rem;
+    }
+
+    /* Особенности */
+    .feature-box {
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .feature-box h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Форма */
+    .form-container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .field-tooltip {
+        position: static;
+        margin-top: 5px;
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    /* Футер */
+    .site-footer {
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .social-links {
+        margin-top: 15px;
+    }
+
+    .social-link {
+        margin: 0 10px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Планшеты */
+@media (max-width: 576px) {
+    .navbar-brand img {
+        max-height: 35px;
+    }
+
+    .hero-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .hero-content p {
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .stat-widget h3 {
+        font-size: 1.8rem;
+    }
+
+    .feature-box h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Смартфоны */
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.4rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .stat-widget {
+        padding: 10px;
+    }
+
+    .stat-widget h3 {
+        font-size: 1.5rem;
+    }
+
+    .feature-box {
+        padding: 12px;
+    }
+
+    .form-container {
+        padding: 15px;
+        margin: 8px;
+    }
+
+    .form-control {
+        padding: 6px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Маленькие смартфоны */
+@media (max-width: 360px) {
+    .navbar-brand img {
+        max-height: 30px;
+    }
+
+    .hero-content h1 {
+        font-size: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .stat-widget h3 {
+        font-size: 1.3rem;
+    }
+
+    .feature-box h3 {
+        font-size: 1.1rem;
+    }
+
+    .form-group label {
+        font-size: 0.8rem;
+    }
+
+    .nav-link {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Ландшафтная ориентация */
+@media (max-height: 480px) and (orientation: landscape) {
+    .hero-section {
+        padding: 30px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .form-container {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .stat-widget {
+        margin-bottom: 15px;
+    }
+}
