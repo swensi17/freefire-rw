@@ -4,7 +4,7 @@
   <img src="путь_к_баннеру" alt="RW WOLVES Banner" width="800"/>
   
   [![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/BELYI_DAVID_ALEKSANDROVICH)
-  [![Free Fire](https://apps.apple.com/ru/app/free-fire-winterlands/id1300146617)
+  [![Free Fire](https://img.shields.io/badge/Free%20Fire-FF4D00?style=for-the-badge&logo=garena&logoColor=white)
 </div>
 
 ## 📜 О Гильдии RW WOLVES
