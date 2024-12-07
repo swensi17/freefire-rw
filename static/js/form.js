@@ -1,3 +1,7 @@
+// Конфигурация Telegram бота
+const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
+const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('applicationForm');
     const successMessage = document.getElementById('successMessage');
@@ -188,36 +192,50 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Добавляем индикатор мобильного устройства
                 formData.append('is_mobile', isMobile);
 
-                const response = await fetch('/submit', {
-                    method: 'POST',
-                    body: formData
-                });
+                // Отправляем сообщение в Telegram
+                const telegramMessage = `📝 Новая заявка!\n\n${formData.get('nickname')}\n${formData.get('telegram')}\n${formData.get('level')}`;
+                const telegramResponse = await sendToTelegram(telegramMessage);
 
-                const result = await response.json();
+                if (telegramResponse.ok) {
+                    const response = await fetch('/submit', {
+                        method: 'POST',
+                        body: formData
+                    });
 
-                // Удаляем оверлей загрузки
-                loadingOverlay.remove();
+                    const result = await response.json();
 
-                if (response.ok && result.success) {
-                    successMessage.innerHTML = `
-                        <div class="success-animation">
-                            <div class="checkmark-circle">
-                                <div class="checkmark draw"></div>
+                    // Удаляем оверлей загрузки
+                    loadingOverlay.remove();
+
+                    if (response.ok && result.success) {
+                        successMessage.innerHTML = `
+                            <div class="success-animation">
+                                <div class="checkmark-circle">
+                                    <div class="checkmark draw"></div>
+                                </div>
+                                <h3>Заявка успешно отправлена!</h3>
+                                <p>Мы свяжемся с вами в ближайшее время через Telegram.</p>
                             </div>
-                            <h3>Заявка успешно отправлена!</h3>
-                            <p>Мы свяжемся с вами в ближайшее время через Telegram.</p>
-                        </div>
-                    `;
-                    successMessage.style.display = 'block';
-                    form.reset();
-                    removeImage();
+                        `;
+                        successMessage.style.display = 'block';
+                        form.reset();
+                        removeImage();
 
-                    // Плавный скролл к сообщению об успехе на мобильных
-                    if (isMobile) {
-                        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Плавный скролл к сообщению об успехе на мобильных
+                        if (isMobile) {
+                            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    } else {
+                        errorMessage.textContent = result.error || 'Произошла ошибка при отправке заявки';
+                        errorMessage.style.display = 'block';
+                        
+                        // Плавный скролл к сообщению об ошибке на мобильных
+                        if (isMobile) {
+                            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
                     }
                 } else {
-                    errorMessage.textContent = result.error || 'Произошла ошибка при отправке заявки';
+                    errorMessage.textContent = 'Произошла ошибка при отправке заявки в Telegram';
                     errorMessage.style.display = 'block';
                     
                     // Плавный скролл к сообщению об ошибке на мобильных
@@ -239,3 +257,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Функция отправки сообщения в Telegram
+async function sendToTelegram(message) {
+    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    const params = {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: 'HTML'
+    };
+    
+    return await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params)
+    });
+}

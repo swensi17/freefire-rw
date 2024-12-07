@@ -770,201 +770,25 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="application-form">
-                        <h2>Подать заявку</h2>
-                        <form id="applicationForm" method="POST" enctype="multipart/form-data">
+                    <div class="form-container">
+                        <form id="registration-form" onsubmit="return false;">
                             <div class="form-group">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Укажите ваше настоящее имя, чтобы мы могли обращаться к вам лично. Это создаст более дружественную атмосферу в гильдии и поможет в коммуникации"></i>
-                                    Ваше имя <span class="required-info">*</span>
-                                </label>
-                                <input type="text" name="name" required class="form-control" placeholder="Введите ваше реальное имя">
-                                <div class="field-tooltip">Укажите ваше настоящее имя, чтобы мы могли обращаться к вам лично. Это создаст более дружественную атмосферу в гильдии и поможет в коммуникации</div>
+                                <label for="nickname">Никнейм в игре</label>
+                                <input type="text" class="form-control" id="nickname" name="nickname" required>
+                                <div class="field-tooltip">Укажите ваш никнейм в Free Fire</div>
                             </div>
                             <div class="form-group">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Введите ваш точный игровой никнейм в Free Fire. Убедитесь, что все символы, цифры и специальные знаки указаны верно, это важно для поиска вашего профиля в игре"></i>
-                                    Никнейм в игре <span class="required-info">*</span>
-                                </label>
-                                <input type="text" name="nickname" required class="form-control" placeholder="Ваш никнейм в Free Fire">
-                                <div class="field-tooltip">Введите ваш точный игровой никнейм в Free Fire. Убедитесь, что все символы, цифры и специальные знаки указаны верно, это важно для поиска вашего профиля в игре</div>
-                            </div>
-                            <div class="form-group optional-field">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Если у вас есть второй аккаунт в игре, укажите его никнейм. Это поможет нам лучше оценить ваш общий опыт игры"></i>
-                                    Второй аккаунт
-                                </label>
-                                <input type="text" name="second_account" class="form-control" placeholder="Никнейм второго аккаунта (если есть)">
-                                <div class="field-tooltip">Если у вас есть второй аккаунт в игре, укажите его никнейм. Это поможет нам лучше оценить ваш общий опыт игры</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <i class="fas fa-info-circle info-icon" data-tooltip="Выберите ваш текущий ранг в игре. Мы ищем опытных игроков, начиная с ранга Золото. Более высокий ранг увеличивает ваши шансы на вступление в гильдию"></i>
-                                            Ранг <span class="required-info">*</span>
-                                        </label>
-                                        <select name="rank" required class="form-control">
-                                            <option value="">Выберите ранг</option>
-                                            <option value="Bronze">Бронза</option>
-                                            <option value="Silver">Серебро</option>
-                                            <option value="Gold">Золото</option>
-                                            <option value="Platinum">Платина</option>
-                                            <option value="Diamond">Алмаз</option>
-                                            <option value="Master">Мастер</option>
-                                            <option value="Grandmaster">Грандмастер</option>
-                                        </select>
-                                        <div class="field-tooltip">Выберите ваш текущий ранг в игре. Мы ищем опытных игроков, начиная с ранга Золото. Более высокий ранг увеличивает ваши шансы на вступление в гильдию</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <i class="fas fa-info-circle info-icon" data-tooltip="Укажите ваш текущий уровень в игре. Уровень отражает ваш игровой опыт и время, проведённое в игре. Чем выше уровень, тем лучше мы сможем оценить вашу активность"></i>
-                                            Уровень <span class="required-info">*</span>
-                                        </label>
-                                        <input type="number" name="level" required class="form-control" placeholder="Ваш уровень в игре">
-                                        <div class="field-tooltip">Укажите ваш текущий уровень в игре. Уровень отражает ваш игровой опыт и время, проведённое в игре. Чем выше уровень, тем лучше мы сможем оценить вашу активность</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <i class="fas fa-info-circle info-icon" data-tooltip="Укажите ваш текущий K/D ratio в игре. Это поможет нам оценить вашу эффективность в бою"></i>
-                                            K/D <span class="required-info">*</span>
-                                        </label>
-                                        <input type="text" name="kd" required class="form-control" placeholder="Например: 2.5">
-                                        <div class="field-tooltip">Укажите ваш текущий K/D ratio в игре. Это поможет нам оценить вашу эффективность в бою</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <i class="fas fa-info-circle info-icon" data-tooltip="Укажите процент попаданий в голову. Это поможет нам оценить вашу точность"></i>
-                                            Хедшоты (%) <span class="required-info">*</span>
-                                        </label>
-                                        <input type="number" name="headshots" required class="form-control" placeholder="Например: 45">
-                                        <div class="field-tooltip">Укажите процент попаданий в голову. Это поможет нам оценить вашу точность</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <i class="fas fa-info-circle info-icon" data-tooltip="Укажите количество часов, которые вы готовы уделять игре ежедневно. Это поможет нам оценить вашу активность"></i>
-                                            Часов в день <span class="required-info">*</span>
-                                        </label>
-                                        <input type="number" name="playtime" required class="form-control" placeholder="Минимум 3 часа">
-                                        <div class="field-tooltip">Укажите количество часов, которые вы готовы уделять игре ежедневно. Это поможет нам оценить вашу активность</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>
-                                            <i class="fas fa-info-circle info-icon" data-tooltip="Укажите количество лет, которые вы играете в Free Fire. Это поможет нам оценить ваш опыт"></i>
-                                            Опыт игры (лет) <span class="required-info">*</span>
-                                        </label>
-                                        <input type="number" name="experience" required class="form-control" placeholder="Например: 2">
-                                        <div class="field-tooltip">Укажите количество лет, которые вы играете в Free Fire. Это поможет нам оценить ваш опыт</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <h3 class="form-section-title">Контактные данные</h3>
-                            <div class="form-group">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Укажите ваш номер телефона для связи"></i>
-                                    Номер телефона <span class="required-info">*</span>
-                                </label>
-                                <div class="phone-input-container">
-                                    <div class="phone-input-group" id="phoneWithCode">
-                                        <select name="country_code" class="form-control country-code" required>
-                                            <option value="+7" data-flag="🇷🇺">+7 Россия</option>
-                                            <option value="+7" data-flag="🇰🇿">+7 Казахстан</option>
-                                            <option value="+375" data-flag="🇧🇾">+375 Беларусь</option>
-                                            <option value="+380" data-flag="🇺🇦">+380 Украина</option>
-                                            <option value="+992" data-flag="🇹🇯">+992 Таджикистан</option>
-                                            <option value="+998" data-flag="🇺🇿">+998 Узбекистан</option>
-                                            <option value="+996" data-flag="🇰🇬">+996 Кыргызстан</option>
-                                            <option value="+374" data-flag="🇦🇲">+374 Армения</option>
-                                            <option value="+994" data-flag="🇦🇿">+994 Азербайджан</option>
-                                            <option value="+373" data-flag="🇲🇩">+373 Молдова</option>
-                                            <option value="+993" data-flag="🇹🇲">+993 Туркменистан</option>
-                                            <option value="+995" data-flag="🇬🇪">+995 Грузия</option>
-                                            <option value="+371" data-flag="🇱🇻">+371 Латвия</option>
-                                            <option value="+372" data-flag="🇪🇪">+372 Эстония</option>
-                                            <option value="+370" data-flag="🇱🇹">+370 Литва</option>
-                                            <option value="+976" data-flag="🇲🇳">+976 Монголия</option>
-                                            <option value="+84" data-flag="🇻🇳">+84 Вьетнам</option>
-                                            <option value="+86" data-flag="🇨🇳">+86 Китай</option>
-                                            <option value="+850" data-flag="🇰🇵">+850 КНДР</option>
-                                            <option value="+82" data-flag="🇰🇷">+82 Республика Корея</option>
-                                        </select>
-                                        <input type="tel" name="phone_with_code" class="form-control phone-number" placeholder="(999) 999-9999">
-                                    </div>
-                                    <div class="phone-input-full" id="phoneWithoutCode" style="display: none;">
-                                        <input type="tel" name="phone_full" class="form-control" placeholder="Введите полный номер телефона с кодом страны">
-                                    </div>
-                                    <div class="phone-toggle">
-                                        <label class="toggle-container">
-                                            <input type="checkbox" id="phoneToggle">
-                                            <span class="toggle-switch"></span>
-                                            <span class="toggle-label">Моей страны нет в списке</span>
-                                        </label>
-                                    </div>
-                                </div>
+                                <label for="telegram">Telegram</label>
+                                <input type="text" class="form-control" id="telegram" name="telegram" required pattern="@[A-Za-z0-9_]{5,32}" title="Укажите ваш username в формате @username">
+                                <div class="field-tooltip">Ваш username в Telegram для связи (например, @username)</div>
                             </div>
                             <div class="form-group">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Укажите ваш Telegram. Это основной способ связи в гильдии"></i>
-                                    Telegram <span class="required-info">*</span>
-                                </label>
-                                <input type="text" name="telegram" required class="form-control" placeholder="@username">
-                                <div class="field-tooltip">Укажите ваш Telegram. Это основной способ связи в гильдии</div>
+                                <label for="level">Уровень в игре</label>
+                                <input type="number" class="form-control" id="level" name="level" required min="1" max="100">
+                                <div class="field-tooltip">Ваш текущий уровень в Free Fire (от 1 до 100)</div>
                             </div>
-                            <div class="form-group optional-field">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Укажите ссылку на ваш профиль ВКонтакте. Это поможет нам лучше узнать вас и обеспечит дополнительный способ связи"></i>
-                                    VK
-                                </label>
-                                <input type="text" name="vk" class="form-control" placeholder="vk.com/username">
-                                <div class="field-tooltip">Укажите ссылку на ваш профиль ВКонтакте. Это поможет нам лучше узнать вас и обеспечит дополнительный способ связи</div>
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Загрузите скриншот вашего профиля в игре"></i>
-                                    Скриншот профиля <span class="required-info">*</span>
-                                </label>
-                                <input type="file" name="screenshot" id="screenshot" accept="image/png,image/jpeg,image/jpg" required class="form-control">
-                                <div class="field-tooltip">Загрузите скриншот вашего профиля в игре для подтверждения ранга и статистики</div>
-                                <div id="imagePreview" style="display: none; margin-top: 10px;">
-                                    <img src="#" alt="Предпросмотр" style="max-width: 100%; max-height: 300px;">
-                                    <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeImage()">
-                                        <i class="fas fa-times"></i> Удалить
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label>
-                                    <i class="fas fa-info-circle info-icon" data-tooltip="Расскажите о себе, своих достижениях или опыте в других играх. Это поможет нам лучше узнать вас и оценить ваш потенциал"></i>
-                                    Дополнительная информация
-                                </label>
-                                <textarea name="additional_info" class="form-control" placeholder="Расскажите о себе, своих достижениях или опыте в других играх"></textarea>
-                                <div class="field-tooltip">Расскажите о себе, своих достижениях или опыте в других играх. Это поможет нам лучше узнать вас и оценить ваш потенциал</div>
-                            </div>
-                            <button type="submit" class="btn-submit">
-                                <span>Отправить заявку</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </button>
+                            <button type="submit" class="submit-button">Отправить заявку</button>
                         </form>
-                        <div id="successMessage" class="alert alert-success" style="display: none;">
-                            Заявка успешно отправлена! Мы свяжемся с вами в Telegram.
-                        </div>
-                        <div id="errorMessage" class="alert alert-danger" style="display: none;">
-                            Произошла ошибка при отправке заявки. Пожалуйста, попробуйте снова.
-                        </div>
                     </div>
                 </div>
             </div>
