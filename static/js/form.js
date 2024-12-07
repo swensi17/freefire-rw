@@ -1,6 +1,6 @@
-// Конфигурация Telegram бота
-const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+// Конфигурация Telegram
+const TELEGRAM_BOT_TOKEN = '6893908848:AAEPGmxXNqQONWXbzUlpvZJgKJcGVZqJxYc';
+const TELEGRAM_CHAT_ID = '-1002255169087';
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('applicationForm');
@@ -150,128 +150,97 @@ document.addEventListener('DOMContentLoaded', function() {
             offlineMessage.style.display = 'block';
         });
 
+        // Функция для отправки сообщения с фото в Telegram
+        async function sendTelegramMessage(formData, photoUrl) {
+            try {
+                // Формируем текст сообщения
+                const message = `🐺 Новая заявка в RW WOLVES!\n\n` +
+                    `👤 Никнейм: ${formData.nickname}\n` +
+                    `📱 Telegram: ${formData.telegram}\n` +
+                    `📊 Уровень: ${formData.level}\n` +
+                    `🎮 K/D: ${formData.kd}\n` +
+                    `🌟 Опыт: ${formData.experience}\n` +
+                    `💬 О себе: ${formData.about}\n\n` +
+                    `📅 Дата заявки: ${new Date().toLocaleString('ru-RU')}`;
+
+                // Отправляем фото с подписью
+                const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        photo: photoUrl,
+                        caption: message,
+                        parse_mode: 'HTML'
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Ошибка отправки сообщения в Telegram');
+                }
+
+                return true;
+            } catch (error) {
+                console.error('Ошибка:', error);
+                return false;
+            }
+        }
+
+        // Функция для показа сообщения об успехе/ошибке
+        function showMessage(type, text) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = `<div class="${type}-message"><i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>${text}</div>`;
+            
+            const form = document.querySelector('form');
+            form.parentNode.insertBefore(alertDiv, form);
+            
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+
+        // Обработчик отправки формы
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Показываем анимацию загрузки
-            const loadingOverlay = document.createElement('div');
-            loadingOverlay.className = 'loading-overlay';
-            loadingOverlay.innerHTML = `
-                <div class="loading-spinner">
-                    <div class="spinner"></div>
-                    <div class="loading-text">Отправка заявки...</div>
-                </div>
-            `;
-            document.body.appendChild(loadingOverlay);
+            // Получаем данные формы
+            const formData = {
+                nickname: this.querySelector('[name="nickname"]').value,
+                telegram: this.querySelector('[name="telegram"]').value,
+                level: this.querySelector('[name="level"]').value,
+                kd: this.querySelector('[name="kd"]').value,
+                experience: this.querySelector('[name="experience"]').value,
+                about: this.querySelector('[name="about"]').value
+            };
 
-            // Скрываем предыдущие сообщения
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
+            // URL изображения профиля по умолчанию
+            const defaultProfileImage = 'https://raw.githubusercontent.com/swensi17/freefire-rw/master/static/images/profile.png';
+
+            // Добавляем индикатор загрузки
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner"></span>Отправка...';
 
             try {
-                const formData = new FormData(form);
-                
-                // Получаем информацию о местоположении
-                const locationData = await getUserLocation();
-                const browserInfo = getBrowserInfo();
-
-                // Добавляем дополнительную информацию в formData
-                if (locationData) {
-                    Object.entries(locationData).forEach(([key, value]) => {
-                        formData.append(`location_${key}`, value);
-                    });
-                }
-
-                Object.entries(browserInfo).forEach(([key, value]) => {
-                    formData.append(`browser_${key}`, value);
-                });
-
-                // Добавляем текущее время
-                formData.append('submission_time', new Date().toISOString());
-
-                // Добавляем индикатор мобильного устройства
-                formData.append('is_mobile', isMobile);
-
                 // Отправляем сообщение в Telegram
-                const telegramMessage = `📝 Новая заявка!\n\n${formData.get('nickname')}\n${formData.get('telegram')}\n${formData.get('level')}`;
-                const telegramResponse = await sendToTelegram(telegramMessage);
-
-                if (telegramResponse.ok) {
-                    const response = await fetch('/submit', {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-                    // Удаляем оверлей загрузки
-                    loadingOverlay.remove();
-
-                    if (response.ok && result.success) {
-                        successMessage.innerHTML = `
-                            <div class="success-animation">
-                                <div class="checkmark-circle">
-                                    <div class="checkmark draw"></div>
-                                </div>
-                                <h3>Заявка успешно отправлена!</h3>
-                                <p>Мы свяжемся с вами в ближайшее время через Telegram.</p>
-                            </div>
-                        `;
-                        successMessage.style.display = 'block';
-                        form.reset();
-                        removeImage();
-
-                        // Плавный скролл к сообщению об успехе на мобильных
-                        if (isMobile) {
-                            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    } else {
-                        errorMessage.textContent = result.error || 'Произошла ошибка при отправке заявки';
-                        errorMessage.style.display = 'block';
-                        
-                        // Плавный скролл к сообщению об ошибке на мобильных
-                        if (isMobile) {
-                            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    }
+                const success = await sendTelegramMessage(formData, defaultProfileImage);
+                
+                if (success) {
+                    showMessage('success', 'Заявка успешно отправлена! Мы свяжемся с вами в Telegram.');
+                    this.reset(); // Очищаем форму
                 } else {
-                    errorMessage.textContent = 'Произошла ошибка при отправке заявки в Telegram';
-                    errorMessage.style.display = 'block';
-                    
-                    // Плавный скролл к сообщению об ошибке на мобильных
-                    if (isMobile) {
-                        errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    showMessage('danger', 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                loadingOverlay.remove();
-                errorMessage.textContent = 'Произошла ошибка при отправке заявки';
-                errorMessage.style.display = 'block';
-                
-                // Плавный скролл к сообщению об ошибке на мобильных
-                if (isMobile) {
-                    errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
+                console.error('Ошибка:', error);
+                showMessage('danger', 'Произошла ошибка при отправке заявки. Пожалуйста, попробуйте позже.');
+            } finally {
+                // Восстанавливаем кнопку
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
             }
         });
     }
 });
-
-// Функция отправки сообщения в Telegram
-async function sendToTelegram(message) {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const params = {
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'HTML'
-    };
-    
-    return await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(params)
-    });
-}
